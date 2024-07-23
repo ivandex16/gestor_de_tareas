@@ -1,30 +1,29 @@
-'use client'
+//'use client'
 import TableProyects from "@/app/components/tablaProyectos/TableProyects";
-import { useApi } from "@/app/hooks/useApi";
+//import { useApi } from "@/app/hooks/useApi";
 import React from "react";
-import { Button } from "@nextui-org/react";
-import Link from "next/link";
-
-export default function DashboardPage() {
-  const { data, loading, error } = useApi('http://localhost:3000/proyects', 'GET')
-
-  if (loading) return <div>Loading...</div>
-  console.log('loading', loading)
-  console.log('data', data)
+//import ButtonsAdd from "@/app/components/buttons/buttonsAdd";
+import { getProyectsApi } from "@/app/api/repository/proyecto.repository";
+import BotonLinkIcon from "@/app/components/buttons/BotonLinkIcon";
+import TablaMain from "@/app/components/tablaProyectos/TablaMain";
 
 
-  if (error) alert('error al recibir la data')
+'/pages/dashboard/nuevoProyecto'
 
-  return data ? (
-    <div>
-      <Button variant="ghost" color="primary">
-        <Link href={'/pages/dashboard/crearProyecto'}>
-          Agregar Proyecto
-        </Link>
-      </Button>
-      <TableProyects data={data} />
+export default async function DashboardPage() {
+  //const { data, loading, error } = useApi('http://localhost:3000/proyects', 'GET')
+
+  const datos = await getProyectsApi('http://localhost:3000/proyects')
+
+
+
+  return datos ? (
+    <div className=" container m-auto">
+      <BotonLinkIcon url={'/pages/dashboard/nuevoProyecto'} />
+      <TableProyects data={datos} />
+      {/* <TablaMain data={datos} /> */}
     </div>
   ) : (
-    <div>No hay datos</div>
+    <div>cargando...</div>
   );
 }

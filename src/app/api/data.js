@@ -7,6 +7,23 @@ const columns = [
   { name: "ACTIONS", uid: "actions" },
 ];
 
+export const columns2 = [
+  { name: "ID", uid: "id", sortable: true },
+  { name: "PROYECTO", uid: "proyecto", sortable: true },
+  { name: "RESPONSABLE", uid: "responsable", sortable: true },
+  { name: "ESTADO", uid: "estado", sortable: true },
+  { name: "DESCRIPCION", uid: "descripcion" },
+  { name: "PRIORIDAD", uid: "priodridad" },
+  { name: "STATUS", uid: "status", sortable: true },
+  { name: "ACTIONS", uid: "actions" },
+];
+
+export const statusOptions = [
+  { name: "Active", uid: "active" },
+  { name: "Paused", uid: "paused" },
+  { name: "Vacation", uid: "vacation" },
+];
+
 const users = [
   {
     id: 1,

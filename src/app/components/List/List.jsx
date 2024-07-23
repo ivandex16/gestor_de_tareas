@@ -11,9 +11,7 @@ export const List = ({ listTareas = [] }) => {
     }
     const [values, setValues] = React.useState(new Set(["2"]));
 
-    console.log('')
 
-    console.log('values ', values)
     const arrayValues = Array.from(values);
 
     const topContent = React.useMemo(() => {

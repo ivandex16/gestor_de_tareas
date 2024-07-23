@@ -7,6 +7,8 @@ export default function FormularioPage() {
             <h4>Nuevo proyecto</h4>
             <Formulario />
 
+
+
         </div>
     )
 }

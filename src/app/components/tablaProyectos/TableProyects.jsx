@@ -19,32 +19,32 @@ const statusColorMap = {
 export default function TableProyects({ data = [] }) {
 
   console.log('dataTable ', data)
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const renderCell = React.useCallback((data, columnKey) => {
+    const cellValue = data[columnKey];
 
-    if (!data) return <>Loading--</>
+
 
     switch (columnKey) {
       case "name":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
+            avatarProps={{ radius: "lg", src: data.avatar }}
+            description={data.email}
             name={cellValue}
           >
-            {user.email}
+            {data.email}
           </User>
         );
       case "role":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">{user.team}</p>
+            <p className="text-bold text-sm capitalize text-default-400">{data.team}</p>
           </div>
         );
       case "status":
         return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[data.status]} size="sm" variant="flat">
             {cellValue}
           </Chip>
         );
@@ -53,7 +53,7 @@ export default function TableProyects({ data = [] }) {
           <div className="relative flex items-center gap-2">
             <Tooltip content="Detalle">
 
-              <Link className="text-lg text-default-400 cursor-pointer active:opacity-50" href='/pages/dashboard/proyect'>
+              <Link className="text-lg text-default-400 cursor-pointer active:opacity-50" href={`/pages/dashboard/proyect/${data.id}`}>
                 <EyeIcon />
               </Link>
             </Tooltip>
