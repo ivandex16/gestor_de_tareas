@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { useEffect } from 'react'
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 
 import { FaCircle } from "react-icons/fa6";
@@ -12,6 +14,8 @@ export default function SelectLayout({ value = "", label = '', placeholder = 'bu
         "danger",
     ];
 
+
+    console.log('value select  ', value)
 
 
     const [color, setColor] = React.useState("default");
@@ -51,7 +55,13 @@ export default function SelectLayout({ value = "", label = '', placeholder = 'bu
 
     }, [value])
 
+    const [defaultValue, setDefault] = React.useState(value)
 
+    useEffect(() => {
+        setDefault(value)
+    }, [value])
+
+    console.log('defaultValue', defaultValue)
 
     return (
         <Autocomplete
@@ -59,12 +69,13 @@ export default function SelectLayout({ value = "", label = '', placeholder = 'bu
             placeholder={placeholder}
             color={color}
             size="sm"
+
             aria-label={ariaLabel}
             onInputChange={handleInputChange}
             //variant="bordered"
             defaultItems={dataList}
             startContent={<FaCircle className="text-xl" />}
-            defaultSelectedKey="cat"
+            defaultSelectedKey={defaultValue}
             className="max-w-xs"
             value={value}
 

@@ -1,6 +1,10 @@
 import { configApi } from "../config.api";
+import { NextResponse } from "next/server";
+
+var Baseurl = `${configApi.base}:${configApi.port}/${configApi.version}`;
+
 export async function guardarProyectoApi(data) {
-  await fetch(`${configApi.base}:${configApi.port}/proyects`, {
+  await fetch(`http://localhost:3001/api/v1/proyects`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json", // Tipo de contenido
@@ -17,15 +21,28 @@ export async function guardarProyectoApi(data) {
 }
 
 export async function getProyectsApi() {
-  const response = await fetch(`${configApi.base}:${configApi.port}/proyects`);
+  const response = await fetch(`http://localhost:3001/api/v1/proyects`, {
+    next: { revalidate: 3600 },
+  });
+  if (!response.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+  console.log("response", response);
   const data = await response.json();
   return data;
 }
 
 export async function obtenerProyectoPorId(id) {
-  const response = await fetch(
-    `${configApi.base}:${configApi.port}/proyects/${id}`
-  );
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`http://localhost:3001/api/v1/proyects/${id}`);
+    console.log("response", response);
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error al obtener el proyecto:", error);
+  }
 }

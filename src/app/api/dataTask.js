@@ -45,7 +45,7 @@ export const estados = [
 ];
 
 export const prioridad = [
-  { label: "Baja", value: "Baja" },
-  { label: "Media", value: "Media" },
-  { label: "Alta", value: "Alta" },
+  { label: "Baja", value: "baja" },
+  { label: "Media", value: "media" },
+  { label: "Alta", value: "alta" },
 ];

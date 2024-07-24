@@ -46,51 +46,8 @@ export default function Formulario() {
         }));
     }
 
-    const agregarTarea = (name, values) => {
-        setValues(prevValues => {
-            // Crear una copia de la tarea específica que deseas actualizar
-            const updatedTask = {
-                ...prevValues[name][0], // copiar la primera tarea
-                asignados: [...prevValues[name][0][name], values] // agregar el nuevo asignado
-            };
 
-            // Actualizar el array de tareas
-            const updatedTasks = [...prevValues[name]];
-            updatedTasks[0] = updatedTask;
 
-            // Retornar el nuevo estado
-            return {
-                ...prevValues,
-                task: updatedTasks
-            };
-        });
-    }
-
-    const updateTaskProperty = (index, property, newValue) => {
-        setValues(prevValues => ({
-            ...prevValues,
-            task: prevValues.task.map((t, i) => {
-                if (i === index) {
-                    if (property === 'asignados') {
-                        // Combina los valores existentes con los nuevos valores para 'asignados'
-                        // Supongamos que 'newValue' es una cadena separada por comas
-                        const newAsignados = newValue.split(',').map(value => value.trim());
-                        return {
-                            ...t,
-                            asignados: [...new Set([...t.asignados, ...newAsignados])]
-                        };
-                    } else {
-                        // Actualiza otras propiedades directamente
-                        return {
-                            ...t,
-                            [property]: newValue
-                        };
-                    }
-                }
-                return t;
-            })
-        }));
-    };
 
 
 
@@ -108,7 +65,7 @@ export default function Formulario() {
 
 
     const handleChangeAsignacion = (user) => {
-        updateValues('responsable', user)
+        updateValues('responsable', user.target.value)
 
 
     }
@@ -117,7 +74,7 @@ export default function Formulario() {
 
 
     const handleChangeStado = (e) => {
-
+        console.log('handleChangeStado', e)
         updateValues('status', e)
     }
 
@@ -143,11 +100,25 @@ export default function Formulario() {
         guardarProyectoApi(values)
             .then((result) => {
                 console.log("Respuesta del servidor:", result);
-                //router.push('/dashboard');
+
+                router.push('/dashboard/allProyects');
             })
             .catch((error) => {
                 console.error("Error al realizar la solicitud:", error);
             });
+
+        setValues((prev) => ({
+            ...prev,
+            name: '',
+            responsable: '',
+            date: '',
+            priority: '',
+            status: '',
+            description: '',
+            tasks: [],
+        }))
+
+
     }
 
     return (
@@ -155,10 +126,10 @@ export default function Formulario() {
         <div className="w-full flex flex-col gap-4">
 
             <div className="h-64 grid grid-rows-2 grid-flow-col gap-4">
-                <Input type="text" variant={variant} label="Nombre del proyecto" name='name' size='sm' onChange={handleChange} className='' />
+                <Input type="text" variant={variant} label="Nombre del proyecto" name='name' size='sm' onChange={handleChange} className='' value={values.name} />
                 {/* <Input type="text" variant={variant} label="Responsable" placeholder="" name='responsable' onChange={handleChange} /> */}
                 <DatePicker label="Fecha" className="max-w-[284px]" name='date' onChange={handleChangeDate} size='sm' />
-                <SelectAsignacion handleChange={handleChangeAsignacion} label="Responsable" />
+                <SelectAsignacion handleChange={handleChangeAsignacion} label="Responsable" value={values.responsable} />
                 <Textarea
                     label="Descripcion"
                     placeholder="Enter your description"
@@ -168,8 +139,8 @@ export default function Formulario() {
                     name='description'
 
                 />
-                <SelectLayout label='Estado' dataList={estados} handleChange={handleChangeStado} />
-                <SelectLayout label='Prioridad' dataList={prioridad} handleChange={handleChangePriorida} />
+                <SelectLayout value={values.status} label='Estado' dataList={estados} handleChange={handleChangeStado} />
+                <SelectLayout value={values.priority} label='Prioridad' dataList={prioridad} handleChange={handleChangePriorida} />
 
             </div>
 

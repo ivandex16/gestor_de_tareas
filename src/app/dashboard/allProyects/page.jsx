@@ -13,13 +13,13 @@ import TablaMain from "@/app/components/tablaProyectos/TablaMain";
 export default async function DashboardPage() {
   //const { data, loading, error } = useApi('http://localhost:3000/proyects', 'GET')
 
-  const datos = await getProyectsApi('http://localhost:3000/proyects')
+  const datos = await getProyectsApi()
 
-
+  console.log('DashboardPage', datos)
 
   return datos ? (
     <div className=" container m-auto">
-      <BotonLinkIcon url={'/pages/dashboard/nuevoProyecto'} />
+      <BotonLinkIcon url={'/dashboard/nuevoProyecto'} />
       <TableProyects data={datos} />
       {/* <TablaMain data={datos} /> */}
     </div>

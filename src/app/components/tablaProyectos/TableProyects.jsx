@@ -11,14 +11,15 @@ import Link from 'next/link'
 import { columns, users } from "../../api/data"
 
 const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  Enprogreso: "primary",
+  Cancelado: "danger",
+  Completado: "success",
+  Porhacer: "warning",
 };
 
 export default function TableProyects({ data = [] }) {
 
-  console.log('dataTable ', data)
+
   const renderCell = React.useCallback((data, columnKey) => {
     const cellValue = data[columnKey];
 
@@ -29,10 +30,10 @@ export default function TableProyects({ data = [] }) {
         return (
           <User
             avatarProps={{ radius: "lg", src: data.avatar }}
-            description={data.email}
+            description={data.responsable}
             name={cellValue}
           >
-            {data.email}
+            {data.responsable}
           </User>
         );
       case "role":
@@ -44,7 +45,7 @@ export default function TableProyects({ data = [] }) {
         );
       case "status":
         return (
-          <Chip className="capitalize" color={statusColorMap[data.status]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[data.status.replace(/\s+/g, "")]} size="sm" variant="flat">
             {cellValue}
           </Chip>
         );
@@ -53,7 +54,7 @@ export default function TableProyects({ data = [] }) {
           <div className="relative flex items-center gap-2">
             <Tooltip content="Detalle">
 
-              <Link className="text-lg text-default-400 cursor-pointer active:opacity-50" href={`/pages/dashboard/proyect/${data.id}`}>
+              <Link className="text-lg text-default-400 cursor-pointer active:opacity-50" href={`/dashboard/proyect/${data._id}`}>
                 <EyeIcon />
               </Link>
             </Tooltip>
@@ -74,8 +75,12 @@ export default function TableProyects({ data = [] }) {
     }
   }, []);
 
+  console.log('proyectos ', data)
   return (
-    <Table aria-label="Example table with custom cells">
+    <Table aria-label="Example table with custom cells" classNames={{
+      base: "max-h-[470px] overflow-scroll",
+      table: "min-h-[420px]",
+    }}>
       <TableHeader columns={columns}>
         {(column) => (
           <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
@@ -85,7 +90,7 @@ export default function TableProyects({ data = [] }) {
       </TableHeader>
       <TableBody items={data}>
         {(item) => (
-          <TableRow key={item.id}>
+          <TableRow key={item._id}>
             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
           </TableRow>
         )}

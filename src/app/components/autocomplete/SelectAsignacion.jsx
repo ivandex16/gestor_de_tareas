@@ -18,7 +18,7 @@ export default function SelectAsignacion({ handleChange, selectionMode = 'single
     const localHandleChange = (items) => {
 
         //const selectedUser = users.find((user) => user.id === +e.target.value);
-        console.log(' localValue', items);
+        console.log(' localValue', items.target.value);
         setValue(items)
         handleChange(items);
     };
@@ -30,7 +30,7 @@ export default function SelectAsignacion({ handleChange, selectionMode = 'single
             className="max-w-xs"
             selectionMode={selectionMode}
             isMultiline={false}
-            onSelectionChange={localHandleChange}
+            onChange={handleChange}
             classNames={{
                 label: "group-data-[filled=true]:-translate-y-5",
                 trigger: "min-h-16",
@@ -75,7 +75,7 @@ export default function SelectAsignacion({ handleChange, selectionMode = 'single
             }}
         >
             {(user) => (
-                <SelectItem key={user.id} textValue={user.name}>
+                <SelectItem key={user.name} textValue={user.name}>
                     <div className="flex gap-2 items-center mb-2">
                         <Avatar alt={user.name} className="flex-shrink-0" size="sm" src={user.avatar} />
                         <div className="flex flex-col">

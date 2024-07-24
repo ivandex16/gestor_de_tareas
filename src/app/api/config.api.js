@@ -1,4 +1,5 @@
 export const configApi = {
-  base: "http://localhost",
+  base: "http://localhost/",
   port: 3001,
+  version: "api/v1",
 };
